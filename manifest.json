@@ -1,0 +1,25 @@
+{
+  "name": "KUMYAI Smart Health Volunteer 2569",
+  "short_name": "KUMYAI VHV",
+  "description": "คู่มือเรียนรู้ อสม. Smart Health Volunteer สำหรับสถานีสุขภาพชุมชนตำบลคำใหญ่",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eafff3",
+  "theme_color": "#0f9b63",
+  "categories": [
+    "health",
+    "education",
+    "productivity"
+  ],
+  "lang": "th",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

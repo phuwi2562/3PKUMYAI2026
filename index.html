@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>KUMYAI Smart Health Volunteer 2569</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" />
+  <meta name="theme-color" content="#0f9b63" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="KUMYAI VHV" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <style>
+    :root{
+      --green:#0f9b63; --deep:#08784b; --blue:#1596d2; --sky:#eaf7ff; --mint:#eafff3;
+      --gold:#ffb703; --red:#ef476f; --text:#14352c; --muted:#5d756d; --card:#ffffff;
+      --shadow:0 12px 30px rgba(17,85,68,.12);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Sarabun","Noto Sans Thai","Segoe UI",system-ui,sans-serif;
+      background:linear-gradient(180deg,#dcfff0 0%,#f7fbff 42%,#fff 100%);
+      line-height:1.65;
+      padding-bottom:86px;
+    }
+    .appbar{
+      position:sticky;top:0;z-index:50;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:10px 14px;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--deep)}
+    .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;color:white;font-size:22px}
+    .install{
+      border:0;border-radius:999px;padding:10px 14px;background:var(--green);color:white;font-weight:800;
+      box-shadow:0 8px 18px rgba(15,155,99,.25);
+    }
+    .hero{
+      padding:28px 16px 34px;text-align:center;color:white;
+      background:
+        radial-gradient(circle at 15% 10%,rgba(255,255,255,.45),transparent 30%),
+        linear-gradient(135deg,var(--green),var(--blue));
+      border-bottom-left-radius:36px;border-bottom-right-radius:36px;
+      box-shadow:var(--shadow);
+    }
+    .badge{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.32);padding:7px 14px;border-radius:999px;font-weight:800;font-size:13px}
+    h1{margin:12px 0 8px;font-size:30px;line-height:1.18}
+    .hero p{margin:0 auto;max-width:760px;opacity:.96}
+    main{max-width:1000px;margin:auto;padding:14px}
+    .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:-26px;position:relative;z-index:2}
+    .quick button{
+      border:0;background:white;border-radius:18px;padding:12px 8px;box-shadow:var(--shadow);font-weight:900;color:var(--deep);
+      min-height:72px;
+    }
+    section{background:white;margin-top:16px;border-radius:26px;padding:18px;box-shadow:0 8px 24px rgba(20,80,60,.08);border:1px solid rgba(15,155,99,.10)}
+    h2{margin:0 0 12px;color:var(--deep);font-size:22px}
+    h3{margin:14px 0 7px;color:#12644c}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{
+      padding:15px;border-radius:20px;background:linear-gradient(180deg,#fff,#f6fffb);
+      border:1px solid rgba(15,155,99,.12);box-shadow:0 4px 12px rgba(0,0,0,.035)
+    }
+    .icon{font-size:30px;display:block;margin-bottom:6px}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap}
+    .pill{background:#f1fff8;border:1px solid rgba(15,155,99,.16);padding:8px 12px;border-radius:999px;font-weight:800}
+    .flow{display:flex;flex-direction:column;gap:9px}
+    .step{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(90deg,#e9fff4,#eaf7ff);border-radius:17px;padding:12px;border-left:7px solid var(--green);font-weight:800}
+    .num{background:var(--green);color:white;border-radius:999px;width:28px;height:28px;display:grid;place-items:center;flex:0 0 auto;font-size:14px}
+    .risk{display:grid;grid-template-columns:1fr;gap:10px}
+    .riskbox{border-radius:18px;padding:15px;font-weight:900;color:white}
+    .green{background:linear-gradient(135deg,#18a058,#36c977)}
+    .yellow{background:linear-gradient(135deg,#ffb703,#ffd166);color:#4b3300}
+    .red{background:linear-gradient(135deg,#e63946,#ef476f)}
+    .lesson{display:none}.lesson.active{display:block}
+    .tabs{display:flex;gap:8px;overflow:auto;padding-bottom:7px;margin-bottom:10px}
+    .tab{white-space:nowrap;border:0;border-radius:999px;padding:10px 12px;font-weight:900;background:#edf8f3;color:#0b6849}
+    .tab.active{background:var(--green);color:white}
+    .progresswrap{background:#edf6f1;border-radius:999px;overflow:hidden;height:14px;margin:10px 0 4px}
+    .progressbar{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue));transition:.3s}
+    .quizq{padding:14px;border-radius:18px;background:#f7fff9;border:1px solid rgba(15,155,99,.15);margin:10px 0}
+    .choice{display:block;width:100%;text-align:left;border:1px solid rgba(15,155,99,.18);background:white;border-radius:14px;padding:11px;margin:8px 0;font-weight:700}
+    .choice.correct{background:#e7fff1;border-color:#18a058}
+    .choice.wrong{background:#fff0f3;border-color:#ef476f}
+    .result{padding:18px;border-radius:22px;background:linear-gradient(135deg,#083b2c,#08784b);color:white;text-align:center;margin-top:12px;display:none}
+    .checklist label{display:flex;gap:10px;background:#f7fff9;border:1px solid rgba(15,155,99,.12);border-radius:14px;padding:10px;margin:8px 0}
+    input[type=checkbox]{width:20px;height:20px;accent-color:var(--green);flex:0 0 auto;margin-top:3px}
+    .threep{display:grid;grid-template-columns:1fr;gap:12px;text-align:center}
+    .threep .card{font-weight:900}
+    .people{background:linear-gradient(135deg,#fff4cf,#fff);border:2px solid var(--gold)}
+    .goal{text-align:center;background:linear-gradient(135deg,#083b2c,#08784b);color:white}
+    .goal h2{color:white}.goalnums{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .goalnums div{background:rgba(255,255,255,.14);border-radius:18px;padding:14px;font-weight:900;font-size:20px}
+    .bottomnav{
+      position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+      border-top:1px solid rgba(0,0,0,.07);display:flex;justify-content:space-around;padding:8px 4px;z-index:60;
+    }
+    .bottomnav button{border:0;background:transparent;color:var(--deep);font-size:12px;font-weight:900}
+    .small{font-size:13px;color:var(--muted)}
+    .offline{position:fixed;left:12px;right:12px;bottom:78px;background:#fff4cf;color:#4a3300;border-radius:16px;padding:10px 12px;box-shadow:var(--shadow);display:none;z-index:90;font-weight:800;text-align:center}
+    @media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}.risk{grid-template-columns:repeat(3,1fr)}.threep{grid-template-columns:1fr 1.15fr 1fr}.quick button{min-height:64px}h1{font-size:40px}}
+  </style>
+</head>
+<body>
+  <div class="appbar">
+    <div class="brand"><div class="logo">＋</div><div>KUMYAI VHV<br><span class="small">Smart Health Volunteer</span></div></div>
+    <button class="install" id="installBtn" hidden>ติดตั้ง</button>
+  </div>
+
+  <div class="hero">
+    <span class="badge">PWA คู่มือเรียนรู้ อสม. • ใช้งานบนมือถือ</span>
+    <h1>SMART HEALTH VOLUNTEER 2569</h1>
+    <p>KUMYAI COMMUNITY HEALTH STATION<br>“รู้ตัวเลขสุขภาพ รู้ความเสี่ยง รู้ทันสุขภาพ”</p>
+  </div>
+
+  <main>
+    <div class="quick">
+      <button onclick="go('home')">🌿<br>ภาพรวม</button>
+      <button onclick="go('lessons')">📚<br>บทเรียน</button>
+      <button onclick="go('quiz')">✅<br>แบบทดสอบ</button>
+      <button onclick="go('check')">📝<br>Checklist</button>
+    </div>
+
+    <section id="home">
+      <h2>🌿 ภาพรวมสถานีสุขภาพ</h2>
+      <p><b>สถานีสุขภาพชุมชนตำบลคำใหญ่</b> คือกลไกบริการสุขภาพใกล้บ้านที่ช่วยให้ประชาชนรู้ค่าตัวเลขสุขภาพ ค้นหากลุ่มเสี่ยง NCDs และได้รับการติดตามดูแลต่อเนื่อง</p>
+      <div class="pillrow">
+        <span class="pill">Know Your Number</span>
+        <span class="pill">Know Your Risk</span>
+        <span class="pill">Know Your Health</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>👩‍⚕️ บทบาทสำคัญของ อสม.</h2>
+      <div class="grid">
+        <div class="card"><span class="icon">🔍</span><b>ค้นหา</b><br>คัดกรองสุขภาพและค้นหากลุ่มเสี่ยง</div>
+        <div class="card"><span class="icon">🤝</span><b>เชื่อมโยง</b><br>เชื่อมประชาชน ครอบครัว ชุมชน และ รพ.สต.</div>
+        <div class="card"><span class="icon">🏠</span><b>ติดตาม</b><br>เยี่ยมบ้านและดูแลต่อเนื่อง</div>
+      </div>
+    </section>
+
+    <section id="lessons">
+      <h2>📚 บทเรียนรู้สำหรับ อสม.</h2>
+      <div class="tabs">
+        <button class="tab active" onclick="showLesson(0)">บทที่ 1</button>
+        <button class="tab" onclick="showLesson(1)">บทที่ 2</button>
+        <button class="tab" onclick="showLesson(2)">บทที่ 3</button>
+        <button class="tab" onclick="showLesson(3)">บทที่ 4</button>
+      </div>
+      <div class="progresswrap"><div class="progressbar" id="lessonProgress"></div></div>
+      <p class="small" id="progressText">เรียนแล้ว 1 จาก 4 บท</p>
+
+      <div class="lesson active">
+        <h3>บทที่ 1: รู้ตัวเลขสุขภาพ</h3>
+        <p>ตัวเลขสุขภาพสำคัญ ได้แก่ ความดันโลหิต น้ำตาลปลายนิ้ว น้ำหนัก ส่วนสูง BMI รอบเอว และประวัติปัจจัยเสี่ยง การรู้ตัวเลขคือจุดเริ่มต้นของการรู้ความเสี่ยง</p>
+      </div>
+      <div class="lesson">
+        <h3>บทที่ 2: คัดกรองและแบ่งกลุ่ม</h3>
+        <div class="risk">
+          <div class="riskbox green">🟢 ปกติ<br><small>แนะนำทั่วไป ประเมินปีละครั้ง</small></div>
+          <div class="riskbox yellow">🟡 เสี่ยง<br><small>ให้คำปรึกษา ติดตาม 3–6 เดือน</small></div>
+          <div class="riskbox red">🔴 เสี่ยงสูง<br><small>ส่งต่อ รพ.สต. และเยี่ยมบ้าน</small></div>
+        </div>
+      </div>
+      <div class="lesson">
+        <h3>บทที่ 3: ขั้นตอนบริการ Health Station</h3>
+        <div class="flow">
+          <div class="step"><span class="num">1</span>ประชาสัมพันธ์และนัดหมาย</div>
+          <div class="step"><span class="num">2</span>ลงทะเบียนและบันทึกข้อมูล</div>
+          <div class="step"><span class="num">3</span>ตรวจสุขภาพและคัดกรองความเสี่ยง</div>
+          <div class="step"><span class="num">4</span>แปลผล ให้คำแนะนำ ติดตาม/ส่งต่อ</div>
+        </div>
+      </div>
+      <div class="lesson">
+        <h3>บทที่ 4: 3P ขับเคลื่อนชุมชนสุขภาวะ</h3>
+        <div class="threep">
+          <div class="card">🤝 Participation<br><span class="small">ภาคีเครือข่าย วัด โรงเรียน เทศบาล อบต.</span></div>
+          <div class="card people">❤️ People<br><span class="small">ประชาชน ครอบครัว อสม. ผู้ป่วย</span></div>
+          <div class="card">📱 Platform<br><span class="small">Health Station, LINE OA, Dashboard</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <h2>🔄 กระบวนการสร้างสุขภาพ</h2>
+      <div class="flow">
+        <div class="step"><span class="num">1</span>ตรวจสุขภาพ</div>
+        <div class="step"><span class="num">2</span>รู้ค่าตัวเลขสุขภาพ</div>
+        <div class="step"><span class="num">3</span>ตระหนักรู้ความเสี่ยง</div>
+        <div class="step"><span class="num">4</span>เพิ่มความรอบรู้ด้านสุขภาพ</div>
+        <div class="step"><span class="num">5</span>ปรับเปลี่ยนพฤติกรรม</div>
+        <div class="step"><span class="num">6</span>Wellness Plan / Family Wellness Plan</div>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>📝 Checklist การปฏิบัติงาน</h2>
+      <div class="checklist">
+        <label><input type="checkbox"> แจ้งวัน เวลา และสถานที่ให้บริการแล้ว</label>
+        <label><input type="checkbox"> เตรียมเครื่องมือครบถ้วนแล้ว</label>
+        <label><input type="checkbox"> ลงทะเบียนและยืนยันตัวตนแล้ว</label>
+        <label><input type="checkbox"> ตรวจวัดสุขภาพและบันทึกข้อมูลแล้ว</label>
+        <label><input type="checkbox"> แปลผล แบ่งกลุ่ม และให้คำแนะนำแล้ว</label>
+        <label><input type="checkbox"> นัดติดตาม เยี่ยมบ้าน หรือส่งต่อกรณีเสี่ยงสูงแล้ว</label>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <h2>✅ แบบทดสอบหลังเรียน</h2>
+      <div id="quizBox"></div>
+      <button class="install" onclick="gradeQuiz()">ตรวจคะแนน</button>
+      <button class="tab" onclick="resetQuiz()">เริ่มใหม่</button>
+      <div class="result" id="resultBox"></div>
+    </section>
+
+    <section class="goal">
+      <h2>🎯 Ultimate Goal</h2>
+      <p>คนคำใหญ่สุขภาพดี อายุยืนอย่างมีคุณภาพ ลดโรค NCDs อย่างยั่งยืน</p>
+      <div class="goalnums">
+        <div>HALE<br>≥ 70 ปี</div>
+        <div>LE<br>≥ 76 ปี</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="offline" id="offlineBox">ขณะนี้ออฟไลน์: แอปยังเปิดใช้งานจากเครื่องได้ตามปกติ</div>
+
+  <div class="bottomnav">
+    <button onclick="go('home')">🌿<br>หน้าแรก</button>
+    <button onclick="go('lessons')">📚<br>เรียนรู้</button>
+    <button onclick="go('process')">🔄<br>ขั้นตอน</button>
+    <button onclick="go('quiz')">✅<br>ทดสอบ</button>
+    <button onclick="go('check')">📝<br>เช็คลิสต์</button>
+  </div>
+
+<script>
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.hidden = false;
+});
+
+installBtn.addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.hidden = true;
+});
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+}
+
+function go(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+function showLesson(i){
+  document.querySelectorAll('.lesson').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  document.querySelectorAll('.tab').forEach((el,idx)=>{ if(idx<4) el.classList.toggle('active',idx===i); });
+  localStorage.setItem('kumyaiLesson', i+1);
+  const pct = ((i+1)/4)*100;
+  document.getElementById('lessonProgress').style.width = pct+'%';
+  document.getElementById('progressText').innerText = `เรียนแล้ว ${i+1} จาก 4 บท`;
+}
+
+const savedLesson = parseInt(localStorage.getItem('kumyaiLesson') || '1') - 1;
+showLesson(Math.max(0, Math.min(3, savedLesson)));
+
+const questions = [
+  {q:'หัวใจสำคัญของ Health Station คือข้อใด?', a:['ประชาชนรู้ตัวเลขสุขภาพของตนเอง','ให้บริการเฉพาะในโรงพยาบาล','ตรวจสุขภาพปีละครั้งเท่านั้น'], c:0},
+  {q:'กลุ่มสีแดงควรดำเนินการอย่างไร?', a:['ให้กลับบ้านโดยไม่ติดตาม','ส่งต่อ รพ.สต. และติดตามเยี่ยมบ้าน','ประเมินซ้ำอีก 1 ปี'], c:1},
+  {q:'บทบาทสำคัญของ อสม. ในชุมชนคือข้อใด?', a:['คัดกรอง ติดตาม ให้ความรู้ และเชื่อมระบบบริการ','ทำหน้าที่รักษาแทนแพทย์ทั้งหมด','ดูแลเฉพาะผู้ป่วยในโรงพยาบาล'], c:0},
+  {q:'Family Wellness Plan หมายถึงอะไร?', a:['แผนสุขภาพของครอบครัวร่วมกัน','ตารางเวร อสม.','แบบฟอร์มการเงิน'], c:0},
+  {q:'3P ในโมเดล KUMYAI ประกอบด้วยอะไร?', a:['People Participation Platform','Patient Pill Pharmacy','Plan Pay Project'], c:0}
+];
+
+function renderQuiz(){
+  const box=document.getElementById('quizBox');
+  box.innerHTML='';
+  questions.forEach((item,idx)=>{
+    const div=document.createElement('div'); div.className='quizq';
+    div.innerHTML=`<b>${idx+1}. ${item.q}</b>`;
+    item.a.forEach((choice,cidx)=>{
+      const btn=document.createElement('button'); btn.className='choice'; btn.innerText=choice;
+      btn.onclick=()=>selectChoice(idx,cidx,btn);
+      div.appendChild(btn);
+    });
+    box.appendChild(div);
+  });
+}
+let answers={};
+function selectChoice(q,c,btn){
+  answers[q]=c;
+  const parent=btn.parentElement;
+  parent.querySelectorAll('.choice').forEach(b=>b.style.outline='none');
+  btn.style.outline='3px solid #0f9b63';
+}
+function gradeQuiz(){
+  let score=0;
+  document.querySelectorAll('.quizq').forEach((qdiv,idx)=>{
+    qdiv.querySelectorAll('.choice').forEach((btn,cidx)=>{
+      btn.classList.remove('correct','wrong');
+      if(cidx===questions[idx].c) btn.classList.add('correct');
+      if(answers[idx]===cidx && cidx!==questions[idx].c) btn.classList.add('wrong');
+    });
+    if(answers[idx]===questions[idx].c) score++;
+  });
+  localStorage.setItem('kumyaiScore', score);
+  const result=document.getElementById('resultBox');
+  result.style.display='block';
+  const pass = score>=4 ? 'ผ่านยอดเยี่ยม 🌟' : 'แนะนำทบทวนอีกครั้งครับ 🌿';
+  result.innerHTML=`<h3 style="color:white;margin-top:0">คะแนน ${score}/${questions.length}</h3><p>${pass}</p><p>อสม. คือพลังสำคัญของชุมชนสุขภาพดี</p>`;
+}
+function resetQuiz(){ answers={}; renderQuiz(); document.getElementById('resultBox').style.display='none'; }
+renderQuiz();
+
+function updateOnline(){
+  document.getElementById('offlineBox').style.display = navigator.onLine ? 'none' : 'block';
+}
+window.addEventListener('online', updateOnline);
+window.addEventListener('offline', updateOnline);
+updateOnline();
+</script>
+</body>
+</html>
